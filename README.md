@@ -4,7 +4,7 @@
 ### How to run the code:
 Run the following command: `python main.py {num_of_files_to_create} {min_num_of_rows} {max_num_of_rows}`
 
-A jupyter notebook has been added to the repository as report of the code. The current checkpoint
+A jupyter notebook has been added to the repository as a report of the code. The current checkpoint
 of the notebook was run on Google Colab.
 
 All files created are placed in the directory `output`. The code creates csv files, merges them,
@@ -18,9 +18,9 @@ Both runs are timed, and the results clearly show that our merging method reduce
 
 **Terminal local Run**:
 
-The MapReduce took 106.027 seconds on the merged and large files
+The MapReduce took 108.875 seconds on the merged and large files
 
-The MapReduce took 138.176 seconds on the small files
+The MapReduce took 145.676 seconds on the small files
 
 **Google Colab Run**:
 
@@ -80,17 +80,16 @@ This method only covers a prototype solution for CSV files
 <br>
 
 1. For each key  from the  input_data, start a new Python thread that executes map_function(key) 
-<br>
+
 2. Each thread will store results of the map_function into mapreducetemp/part-tmp-X.csv where X is a unique number per each thread.
-<br>
+
 3. Keep the list of all threads and check whether they are completed.
-<br>
+
 4. Once all threads completed, load content of all CSV files into the temp_results table in SQLite.
 
     Remark: Easiest way to loop over all CSV files and load them into Pandas first, then load into SQLite  
     `data = pd.read_csv(path to csv)`  
     `data.to_sql(‘temp_results’,sql_conn, if_exists=’append’,index=False)`
-<br><br>
 
 5. **SQL statement** that generates a sorted list by key of the form `(key, value)` where value is concatenation of ALL values in the value column that match specific key. For example, if table has records
 <table>
@@ -114,11 +113,11 @@ This method only covers a prototype solution for CSV files
 <br>
 
 6. **Start a new thread** for each value from the generated list in the previous step, to execute `reduce_function(key,value)` 
-<br>    
+    
 7. Each thread will store results of reduce_function into `mapreducefinal/part-X-final.csv` file  
-<br>
+
 8. Keep list of all threads and check whether they are completed  
-<br>
+
 9. Once all threads completed, print on the screen `MapReduce Completed` otherwise print `MapReduce Failed`
 
 ### MapReduce Functions
